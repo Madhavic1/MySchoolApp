@@ -87,6 +87,24 @@ namespace MySchoolApp
 
             return teacher;
         }
+        /// <summary>
+        /// Returns a Teacher object depends on teacher id
+        /// </summary>
+        /// <returns></returns>
+        public static Teacher GetTeacher(int teacherId)
+        {
+            Console.WriteLine("Teacher Id");
+            Teacher teacher = db.Teachers.Where(t => t.Id == teacherId).FirstOrDefault();
+            Console.WriteLine("Teacher name = {0}", teacher.Name);
+            if(teacher == null)
+            {
+                               Console.WriteLine("Entered in null condition");
+               
+                               throw new NullReferenceException("Teacher Not Found");
+            }
+            return teacher;
+            //return Teacher t;
+        }
 
         /// <summary>
         /// Displays the Enum values of Grades
@@ -142,25 +160,11 @@ namespace MySchoolApp
             }
             else
             {
-                //throw an error / exception
+                throw new FormatException();
             }
 
         }
-        /// <summary>
-        /// Raises the income by the passed amount
-        /// </summary>
-        /// <param name="amount">The amount that student pays as tuition Fee</param>
 
-        
-
-        /// <summary>
-        /// Increses the expenditure / Total Money spent by the school
-        /// </summary>
-        /// <param name="amount"> the amount that the school spends to give Teacher Salaries</param>
-        public static void UpdateExpenditure(decimal amount)
-        {
-            TotalExpenditure += amount;
-        }
 
         /// <summary>
         /// calculates the students total tuition fee depending on his/her grade and art subject taken
@@ -223,6 +227,20 @@ namespace MySchoolApp
                 fee = 35;
 
             return fee;
+        }
+
+        public static void PayTeacherSalary(Teacher teacher, int amount)
+        {
+            if (amount != 0)
+            {
+                teacher.SalaryEarned += amount;
+                TotalExpenditure += amount;
+                db.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException("Salary can not be zero", "Salary");
+            }
         }
     }
 }

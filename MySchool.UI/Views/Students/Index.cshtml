@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MySchoolApp.Student>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Father_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentGrade)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArtSubjectTaken)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeesPaid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeeTotal)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Father_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentGrade)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArtSubjectTaken)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeesPaid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeeTotal)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.StudentId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.StudentId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.StudentId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,74 @@
+﻿@model MySchoolApp.Student
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Father_Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Father_Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StudentGrade)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StudentGrade)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ArtSubjectTaken)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ArtSubjectTaken)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeesPaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeesPaid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FeeTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FeeTotal)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.StudentId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

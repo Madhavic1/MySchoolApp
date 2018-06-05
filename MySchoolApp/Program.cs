@@ -32,11 +32,11 @@ namespace MySchoolApp
 
                 switch (option)
                 {
-                    case "0": //quit
+                    case "0":
                         Console.WriteLine("Thank you for visiting ");
                         return;
 
-                    case "1"://Enroll a student in school
+                    case "1":
                         Console.Write("Student Name :");
                         var name = Console.ReadLine();
 
@@ -66,36 +66,96 @@ namespace MySchoolApp
 
                         break;
 
-                    case "2": // view student information
-                        GetStudent();
-
+                    case "2": 
+                        try
+                        {
+                            GetStudent();
+                        }
+                        catch(NullReferenceException nrx)
+                        {
+                            Console.WriteLine($"Error -{nrx.Message} .. Pls Try Again");
+                        }
                         break;
 
-                    case "3": // Pay Student Tuition Fee
-                        student = GetStudent();
-                        Console.WriteLine("Amount :");
-                        var amount = Convert.ToDecimal(Console.ReadLine());
+                    case "3":
 
-                        School.CollectStudentFee(student, amount);
-                        // payment.
+                        try
+                        {
+                            student = GetStudent();
+                            Console.WriteLine("Amount :");
+                            var fee = Convert.ToDecimal(Console.ReadLine());
 
+                            School.CollectStudentFee(student, fee);
+                        }
+                        catch (NullReferenceException nrx)
+                        {
+                            Console.WriteLine($"Error -{nrx.Message}");
+                        }
+                        catch(FormatException fx)
+                        {
+                            Console.WriteLine("The amount entered is not in correct format. Pls Try again");
+                        }
                         break;
+                   
                     case "4":
+                        try
+                        {
+
+                            Console.Write("Teacher Name:");
+                            name = Console.ReadLine();
+                            Console.WriteLine("Address: ");
+                            string address = Console.ReadLine();
+                            Console.WriteLine("Contact Number");
+                            
+                            long contactNumber = Convert.ToInt64(Console.ReadLine());
+                            Console.Write("Grade");
+                            School.ShowGradesInfo();
+                            Console.WriteLine("your choice");
+                            var _grade = Console.ReadLine();
+                            checkGradeValue(_grade);
+                            grade = (Grades)Enum.Parse(typeof(Grades), _grade);
+
+                            Console.Write("Total Salary");
+                            var salary = Convert.ToDecimal(Console.ReadLine());
+                            var teacher = School.AddTeacher(name, address, contactNumber, grade, salary);
+                        }
+                        catch(FormatException)
+                        {
+                            Console.WriteLine(" Error - The entered Contact number  is not in correct format");
+                        }
+                        catch(ArgumentException ax)
+                        {
+                            Console.WriteLine($"Error -{ax.Message} ");
+                        }
                         break;
                     case "5":
-                        Console.Write("Teacher Name:");
-                        name = Console.ReadLine();
-                        Console.WriteLine("Address: ");
-                        string address = Console.ReadLine();
-                        Console.WriteLine("Contact Number");
-                        long contactNumber = Convert.ToInt64(Console.ReadLine());
-                        Console.Write("Grade");
-                        grade = (Grades)Enum.Parse(typeof(Grades), Console.ReadLine());
-                        Console.Write("Total Salary");
-                        var salary = Convert.ToDecimal(Console.ReadLine());
-                        var teacher = School.AddTeacher(name, address, contactNumber, grade, salary);
+                        // Pay Teacher Salary
+                        try
+                        {
+                            /**impact:
+                             * should increase teacher's Salary Earned
+                             * should increase School's Expenditure
+                             * */
+                            Console.WriteLine("Teacher ID:");
+                            var id = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Amount: ");
+                            var amount = Convert.ToInt32(Console.ReadLine());
+                            var teacher = School.GetTeacher(id);
+                            School.PayTeacherSalary(teacher, amount);
+                        }
+                        catch(FormatException)
+                        {
+                            Console.WriteLine("Amount was not entered in a correct format . Pls try again ");
+                        }
+                        catch(NullReferenceException nrx)
+                        {
+                            Console.WriteLine($"Error - {nrx.Message}");
+                        }
+                        catch(ArgumentException ax)
+                        {
+                            Console.WriteLine($"Error - {ax.Message}");
+                        }
                         break;
-
 
                 }
             }
@@ -109,11 +169,27 @@ namespace MySchoolApp
            Console.WriteLine("Father Name :");
            var fatherName = Console.ReadLine();
            var student = School.GetStudentInformation(name, fatherName);
+            if(student == null)
+            {
+                throw new NullReferenceException("Student Not Found");
+            }
             Console.WriteLine($"N Name: {student.Name} Age: {student.Age} Grade : {student.StudentGrade}" +
                 $" Father: {student.Father_Name}  FeeTotal: {student.FeeTotal}" +
             $"Art : {student.ArtSubjectTaken}");
 
             return student;
+        }
+
+       
+        public static bool checkGradeValue(string gradeValue)
+        {
+            if (string.IsNullOrEmpty(gradeValue))
+            {
+                throw new ArgumentException("Grade", "Enter the grade value and try again");
+            }
+            string[] values = Enum.GetNames(typeof(Grades));
+
+            return true;
         }
     }
 }
